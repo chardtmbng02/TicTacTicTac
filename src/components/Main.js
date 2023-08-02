@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
-import './Main.css'; // Create a CSS file for styling if desired
+import React, { useState } from "react";
+import "./Main.css"; // CSS styling import
 
+// Define the Main component
 const Main = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(true);
+  const [board, setBoard] = useState(Array(9).fill(null)); // Initialize the game board state with an array of 9 null values
+  const [isXNext, setIsXNext] = useState(true); // Initialize the player's turn state (true for 'X', false for 'O')
 
+  // This function will handle the square click.
   const handleClick = (index) => {
+    // Check if the square is already occupied or if there is a winner.
     if (board[index] || calculateWinner(board)) {
       return;
     }
-
+    // Create a new copy of the board array and update the clicked square.
     const newBoard = [...board];
-    newBoard[index] = isXNext ? 'X' : 'O';
+    newBoard[index] = isXNext ? "X" : "O";
 
     setBoard(newBoard);
     setIsXNext(!isXNext);
   };
 
+  // Function to render a single square button.
   const renderSquare = (index) => {
     return (
       <button className="square" onClick={() => handleClick(index)}>
@@ -25,8 +29,11 @@ const Main = () => {
     );
   };
 
+  // This will calculate the winner.
   const winner = calculateWinner(board);
-  const status = winner ? `Winner: ${winner}` : `Next player: ${isXNext ? 'X' : 'O'}`;
+  const status = winner
+    ? `Winner: ${winner}`
+    : `Next player: ${isXNext ? "X" : "O"}`;
 
   return (
     <div className="tic-tac-toe">
@@ -59,11 +66,12 @@ const calculateWinner = (board) => {
   for (const line of winningLines) {
     const [a, b, c] = line;
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return board[a]; // Return the winning player ('X' or 'O')
     }
   }
 
-  return null;
+  // Return null if there's no winner
+  return null; 
 };
 
 export default Main;
